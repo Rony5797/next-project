@@ -1,41 +1,60 @@
 import RecipeModel from "@/models/recipeModel";
 import UserModel from "@/models/userModel";
-import mongoose from "mongoose";
 
 async function getAllrecipe() {
-  await RecipeModel();
-  const allRecipe = await RecipeModel.find();
-  return allRecipe;
+  try {
+    await RecipeModel();
+    const allRecipe = await RecipeModel.find();
+    return allRecipe;
+  } catch (error) {
+    console.log(error);
+  }
 }
 async function getRecipeById(id) {
-  await RecipeModel();
-  const Recipe = await RecipeModel.findById(id);
-  return Recipe;
+  try {
+    await RecipeModel();
+    const Recipe = await RecipeModel.findById(id);
+    return Recipe;
+  } catch (error) {
+    console.log(error);
+  }
 }
 async function createUser(user) {
-  await UserModel();
-  return await UserModel.create(user);
+  try {
+    await UserModel();
+    return await UserModel.create(user);
+  } catch (error) {
+    console.log(error);
+  }
 }
 async function findUserByCredential(credentials) {
-  await UserModel();
-  const user = await UserModel.findOne(credentials).lean();
-  return user;
+  try {
+    await UserModel();
+    const user = await UserModel.findOne(credentials).lean();
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
 }
 async function recipeFav(userId, recepeId) {
-  await UserModel();
-  const userFav = await UserModel.findById(userId);
-  if (userFav) {
-    const foundRecipe = userFav.favourites.find(
-      (id) => id.toString() === recepeId
-    );
+  try {
+    await UserModel();
+    const userFav = await UserModel.findById(userId);
+    if (userFav) {
+      const foundRecipe = userFav.favourites.find(
+        (id) => id.toString() === recepeId
+      );
 
-    if (foundRecipe) {
-      userFav.favourites.pull(recepeId);
-    } else {
-      userFav.favourites.push(recepeId);
+      if (foundRecipe) {
+        userFav.favourites.pull(recepeId);
+      } else {
+        userFav.favourites.push(recepeId);
+      }
+
+      userFav.save();
     }
-
-    userFav.save();
+  } catch (error) {
+    console.log(error);
   }
 }
 
