@@ -1,9 +1,10 @@
 import RecipeModel from "@/models/recipeModel";
 import UserModel from "@/models/userModel";
+import { dbConnect } from "@/services/mongodb";
 
 async function getAllrecipe() {
   try {
-    await RecipeModel();
+    await dbConnect();
     const allRecipe = await RecipeModel.find();
     return allRecipe;
   } catch (error) {
@@ -12,7 +13,7 @@ async function getAllrecipe() {
 }
 async function getRecipeById(id) {
   try {
-    await RecipeModel();
+    await dbConnect();
     const Recipe = await RecipeModel.findById(id);
     return Recipe;
   } catch (error) {
@@ -21,7 +22,7 @@ async function getRecipeById(id) {
 }
 async function createUser(user) {
   try {
-    await UserModel();
+    await dbConnect();
     return await UserModel.create(user);
   } catch (error) {
     console.log(error);
@@ -29,7 +30,7 @@ async function createUser(user) {
 }
 async function findUserByCredential(credentials) {
   try {
-    await UserModel();
+    await dbConnect();
     const user = await UserModel.findOne(credentials).lean();
     return user;
   } catch (error) {
@@ -38,7 +39,7 @@ async function findUserByCredential(credentials) {
 }
 async function recipeFav(userId, recepeId) {
   try {
-    await UserModel();
+    await dbConnect();
     const userFav = await UserModel.findById(userId);
     if (userFav) {
       const foundRecipe = userFav.favourites.find(
