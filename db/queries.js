@@ -23,7 +23,8 @@ async function getRecipeById(id) {
 async function createUser(user) {
   try {
     await dbConnect();
-    return await UserModel.create(user);
+    const instance = await UserModel.create(user);
+    return await instance.save();
   } catch (error) {
     console.log(error);
   }
